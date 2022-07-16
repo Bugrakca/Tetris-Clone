@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
     }
 
 
-    private void SpawnNextShape()
+    public void SpawnNextShape()
     {
         int i = Random.Range(0, shapes.Count);
 

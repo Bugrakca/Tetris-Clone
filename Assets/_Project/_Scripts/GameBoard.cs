@@ -28,102 +28,38 @@ public class GameBoard : MonoBehaviour
 //TODO: Display high score inside the right area.
 //TODO: If player not save and want to quit the game. Ask the player if really want's to quit.
 
-    [SerializeField] private float difficulty;
-
-    private float _lastFall;
+    public static float Difficulty = 0.9f;
+    public static float LastFall;
+    
     private static bool _gameIsPaused;
     private GameObject _block;
-
-    private Transform[,] _gridData = new Transform[Width, Height];
-
+    
     public float time;
     
-    public static int Width = 10;
-    public static int Height = 20;
-    
-
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         time = Time.time; //Timer for UI
-        _block = GameObject.FindWithTag("Piece");
-        
-        Move(_block);
-        CheckPiecePos(_block.transform);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _gameIsPaused = !_gameIsPaused;
-            PauseGame();
-        }
+        PauseGame();
     }
 
+    //Assign the Time.timescale 0 or 1 
     private void PauseGame()
     {
         Time.timeScale = _gameIsPaused ? 0 : 1;
-    }
-
-
-    public bool InsideBorder(Vector2 pos)
-    {
-        return (int)pos.x < Width && (int)pos.x >= 0 && (int)pos.y >= 0;
-    }
-
-    private bool CheckPiecePos(Transform obj)
-    {
-        foreach (Transform child in obj)
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Vector2 v = RoundedVector2(child.position);
-            if (!InsideBorder(v))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private Vector2 RoundedVector2(Vector2 v)
-    {
-        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
-    }
-
-    private void Move(GameObject obj)
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            obj.transform.position += new Vector3(-1, 0, 0);
-
-            if (!CheckPiecePos(obj.transform))
-            {
-                obj.transform.position += new Vector3(1, 0, 0);
-            }
+            _gameIsPaused = !_gameIsPaused;
         }
         
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            obj.transform.position += new Vector3(1, 0, 0);
-            
-            if (!CheckPiecePos(obj.transform))
-            {
-                obj.transform.position += new Vector3(-1, 0, 0);
-            }
-        }
+    }
+    
+
+    //Move the blocks with arrow keys.
+    
+
+    private void GameOver(Transform obj)
+    {
         
-        else if (Input.GetKey(KeyCode.DownArrow) && Time.time - _lastFall > 0.1f || Time.time - _lastFall >= difficulty)
-        {
-            obj.transform.position += new Vector3(0, -1, 0);
-            
-            if (!CheckPiecePos(obj.transform))
-            {
-                obj.transform.position += new Vector3(0, 1, 0);
-            }
-            
-            _lastFall = Time.time;
-        }
     }
 }
