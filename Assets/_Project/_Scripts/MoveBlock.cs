@@ -8,6 +8,7 @@ public class MoveBlock : MonoBehaviour
     private void Update()
     {
         Move(transform.gameObject);
+        Rotate.RotatePiece(transform.gameObject);
     }
     
 
@@ -17,7 +18,7 @@ public class MoveBlock : MonoBehaviour
     }
 
     //Checking child objects positions if child objects are inside the border or not.
-    private static bool CheckPiecePos(Transform obj)
+    public static bool CheckPiecePos(Transform obj)
     {
         foreach (Transform child in obj)
         {
