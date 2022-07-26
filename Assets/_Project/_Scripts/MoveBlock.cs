@@ -74,10 +74,35 @@ public class MoveBlock : MonoBehaviour
             }
         }
         
-        else if (Input.GetKey(KeyCode.DownArrow) && Time.time - GameBoard.LastFall > 0.1f || Time.time - GameBoard.LastFall >= GameBoard.Difficulty)
+        else if (Time.time - GameBoard.LastFall >= GameBoard.Difficulty)
         {
             obj.transform.position += new Vector3(0, -1, 0);
             
+            if (CheckPiecePos(obj.transform))
+            {
+                GridSystem.UpdateGrid(obj.transform);
+            }
+            else
+            {
+                obj.transform.position += new Vector3(0, 1, 0);
+
+                FindObjectOfType<SpawnManager>().SpawnNextShape();
+                
+                enabled = false;
+                
+                GridSystem.ClearLine();
+            }
+            
+            
+            GameBoard.LastFall = Time.time;
+        }
+
+        else if (Input.GetKey(KeyCode.DownArrow) && Time.time - GameBoard.LastFall > 0.1f)
+        {
+            obj.transform.position += new Vector3(0, -1, 0);
+            
+            GameBoard.Score += 1;
+
             if (CheckPiecePos(obj.transform))
             {
                 GridSystem.UpdateGrid(obj.transform);
@@ -101,6 +126,26 @@ public class MoveBlock : MonoBehaviour
         {
             //Find the object placement coordinate and place the object that coordinate. 
             //Try using lerp, slerp, MoveTowards.
+            while (CheckPiecePos(obj.transform))
+            {
+                GridSystem.UpdateGrid(obj.transform);
+                
+                GameBoard.Score += 2;
+                
+                obj.transform.position += new Vector3(0, -1, 0);
+            }
+            
+            obj.transform.position += new Vector3(0, 1, 0);
+
+            FindObjectOfType<SpawnManager>().SpawnNextShape();
+                
+            enabled = false;
+                
+            GridSystem.ClearLine();
+            
+            GameBoard.LastFall = Time.time;
+
         }
     }
+    
 }
