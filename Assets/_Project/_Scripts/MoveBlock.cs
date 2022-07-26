@@ -89,10 +89,18 @@ public class MoveBlock : MonoBehaviour
                 FindObjectOfType<SpawnManager>().SpawnNextShape();
                 
                 enabled = false;
+                
+                GridSystem.ClearLine();
             }
             
             
             GameBoard.LastFall = Time.time;
+        }
+        
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && Time.time - GameBoard.LastFall > 0f)
+        {
+            //Find the object placement coordinate and place the object that coordinate. 
+            //Try using lerp, slerp, MoveTowards.
         }
     }
 }
