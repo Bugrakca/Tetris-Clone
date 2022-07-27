@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class MoveBlock : MonoBehaviour
 {
+    private void Start()
+    {
+        GameBoard.GameOver(transform);
+    }
+
     private void Update()
     {
         Move(transform.gameObject);
@@ -124,8 +129,6 @@ public class MoveBlock : MonoBehaviour
         
         else if (Input.GetKeyDown(KeyCode.UpArrow) && Time.time - GameBoard.LastFall > 0f)
         {
-            //Find the object placement coordinate and place the object that coordinate. 
-            //Try using lerp, slerp, MoveTowards.
             while (CheckPiecePos(obj.transform))
             {
                 GridSystem.UpdateGrid(obj.transform);

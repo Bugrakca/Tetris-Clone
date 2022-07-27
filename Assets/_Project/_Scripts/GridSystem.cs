@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GridSystem : MonoBehaviour
 {
+    public static int Level = 1;
+    public static int LineCount;
+    
     public static int Width = 10;
     public static int Height = 20;
 
@@ -38,16 +41,35 @@ public class GridSystem : MonoBehaviour
         {
             for (int x = 0; x < Width; x++)
             {
-                if (IsRowFull(y))
+                if (!IsRowFull(y))
                 {
-                    DeleteRow(y);
-                    DecreaseAboveRows(y);
-                    count++;
+                    break;
+                }
+                
+                DeleteRow(y);
+                DecreaseAboveRows(y);
+                GameBoard.DifficultyChange();
+                count++;
+
+                if (count == 1)
+                {
+                    Level++;
+                }
+                
+                else
+                {
+                    Level += count % 5;
+                }
+                
+                if (count % 5 == 0)
+                {
+                    
+                    Level += count / 5;
                 }
             }
         }
-        
-        AddScore(count);
+        GameBoard.ClearedLines.Add(count);
+        AddScore(count, Level);
     }
 
     private static bool IsRowFull(int y)
@@ -70,12 +92,12 @@ public class GridSystem : MonoBehaviour
         }
     }
 
-    private static void AddScore(int clearedLines)
+    private static void AddScore(int clearedLines, int level)
     {
         if (clearedLines > 1)
-            GameBoard.Score += 2 * (clearedLines * 100);
+            GameBoard.Score += 2 * (level + clearedLines * 100);
         else
-            GameBoard.Score += clearedLines * 100;
+            GameBoard.Score += (level + clearedLines) * 100;
     }
 
     private static void DecreaseRow(int y)

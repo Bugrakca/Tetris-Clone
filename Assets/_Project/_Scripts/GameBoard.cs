@@ -7,15 +7,16 @@ using UnityEngine.Serialization;
 
 public class GameBoard : MonoBehaviour
 {
-    public static float Difficulty = 0.9f;
+    public static float Difficulty = 0.8f;
     public static float LastFall;
     public static int Score;
 
     public TMP_Text scoreText; 
     public TMP_Text pauseText; 
-    public TMP_Text speedText; 
+    public TMP_Text levelText; 
     
     private static bool _gameIsPaused;
+    public static readonly List<int> ClearedLines = new();
     
     public float time;
     
@@ -27,6 +28,7 @@ public class GameBoard : MonoBehaviour
         time = Time.time; //Timer for UI
         PauseGame();
         scoreText.text = $"Score: {Score}";
+        levelText.text = $"Level: {GridSystem.Level}";
     }
     
 
@@ -57,8 +59,39 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    private void GameOver(Transform obj)
+    public static void GameOver(Transform obj)
     {
+        if (!MoveBlock.CheckPiecePos(obj.transform))
+        {
+            Debug.Log("Game Over!");
+            Destroy(obj.gameObject);
+        }
+    }
+
+    public static void DifficultyChange()
+    {
+        if (SumOfClearedLines() % 2 == 0)
+        {
+            Difficulty -= 0.08f;
+            GridSystem.LineCount = 0;
+            Debug.Log(GridSystem.LineCount);
+        }
+        // else if (GridSystem.LineCount >= GridSystem.Level * 5)
+        // {
+        //     Difficulty -= 0.08f;
+        // }
         
+    }
+
+    private static int SumOfClearedLines()
+    {
+        int answer = 0;
+
+        foreach (var value in ClearedLines)
+        {
+            answer += value;
+        }
+        
+        return answer;
     }
 }
