@@ -7,10 +7,7 @@ using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
-    //TODO: Create a variable for random spawning object. Starting the game spawn that object and assign next random object to that variable. 
-    //TODO: Show the next block to the player.
-    
-    [SerializeField] private List<GameObject> shapes;
+   [SerializeField] private List<GameObject> shapes;
 
     private GameObject _nextBlockSpawnPos;
     
