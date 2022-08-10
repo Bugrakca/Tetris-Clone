@@ -14,8 +14,11 @@ public class MoveBlock : MonoBehaviour
 
     private void Update()
     {
-        Move(transform.gameObject);
-        Rotate.RotatePiece(transform.gameObject);
+        if (!GameBoard.GameIsPaused)
+        {
+            Move(transform.gameObject);
+            Rotate.RotatePiece(transform.gameObject); 
+        }
     }
     
 

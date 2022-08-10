@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
-   [SerializeField] private List<GameObject> shapes;
+    [SerializeField] private List<GameObject> shapes;
 
     private GameObject _nextBlockSpawnPos;
     

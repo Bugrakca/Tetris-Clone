@@ -15,7 +15,7 @@ public class GameBoard : MonoBehaviour
     public TMP_Text pauseText; 
     public TMP_Text levelText; 
     
-    private static bool _gameIsPaused;
+    public static bool GameIsPaused;
     public static readonly List<int> ClearedLines = new();
     
     public float time;
@@ -35,13 +35,13 @@ public class GameBoard : MonoBehaviour
     //Assign the Time.timescale 0 or 1 
     private void PauseGame()
     {
-        Time.timeScale = _gameIsPaused ? 0 : 1;
+        Time.timeScale = GameIsPaused ? 0 : 1;
         
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            _gameIsPaused = !_gameIsPaused;
+            GameIsPaused = !GameIsPaused;
 
-            if (_gameIsPaused)
+            if (GameIsPaused)
             {
                 pauseText.color = Color.black;
                 pauseText.fontStyle = FontStyles.Bold;
