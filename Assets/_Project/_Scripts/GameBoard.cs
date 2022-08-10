@@ -14,6 +14,7 @@ public class GameBoard : MonoBehaviour
     public TMP_Text scoreText; 
     public TMP_Text pauseText; 
     public TMP_Text levelText; 
+    public TMP_Text highScore; 
     
     public static bool GameIsPaused;
     public static readonly List<int> ClearedLines = new();
@@ -21,8 +22,13 @@ public class GameBoard : MonoBehaviour
     public float time;
     
     private GameObject _block;
-    
-    
+
+    private void Start()
+    {
+        GameManager.Instance.LoadUserData();
+        highScore.text = $"High Score: {GameManager.Instance.highScore}";
+    }
+
     private void Update()
     {
         time = Time.time; //Timer for UI
@@ -61,11 +67,10 @@ public class GameBoard : MonoBehaviour
 
     public static void GameOver(Transform obj)
     {
-        if (!MoveBlock.CheckPiecePos(obj.transform))
-        {
-            Debug.Log("Game Over!");
-            Destroy(obj.gameObject);
-        }
+        if (MoveBlock.CheckPiecePos(obj.transform)) return;
+        Debug.Log("Game Over!");
+        Destroy(obj.gameObject);
+        GameManager.Instance.SaveUserData();
     }
 
     public static void DifficultyChange()
@@ -76,10 +81,10 @@ public class GameBoard : MonoBehaviour
             GridSystem.LineCount = 0;
             Debug.Log(GridSystem.LineCount);
         }
-        // else if (GridSystem.LineCount >= GridSystem.Level * 5)
-        // {
-        //     Difficulty -= 0.08f;
-        // }
+        else if (GridSystem.LineCount >= GridSystem.Level * 5)
+        {
+            Difficulty -= 0.08f;
+        }
         
     }
 
