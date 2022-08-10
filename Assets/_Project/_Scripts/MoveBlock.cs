@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class MoveBlock : MonoBehaviour
 {
+    private SpawnManager _spawnManager;
     private void Start()
     {
+        _spawnManager = FindObjectOfType<SpawnManager>();
         GameBoard.GameOver(transform);
     }
 
@@ -91,10 +93,12 @@ public class MoveBlock : MonoBehaviour
             {
                 obj.transform.position += new Vector3(0, 1, 0);
 
-                FindObjectOfType<SpawnManager>().SpawnNextShape();
-                
+                FindObjectOfType<SpawnManager>().SpawnShape(_spawnManager.transform.position, _spawnManager.nextBlock);
+                Destroy(_spawnManager.nextBlock);
+                _spawnManager.nextBlock = _spawnManager.SpawnNextShape();
+
                 enabled = false;
-                
+
                 GridSystem.ClearLine();
             }
             
@@ -116,7 +120,9 @@ public class MoveBlock : MonoBehaviour
             {
                 obj.transform.position += new Vector3(0, 1, 0);
 
-                FindObjectOfType<SpawnManager>().SpawnNextShape();
+                FindObjectOfType<SpawnManager>().SpawnShape(_spawnManager.transform.position, _spawnManager.nextBlock);
+                Destroy(_spawnManager.nextBlock);
+                _spawnManager.nextBlock = _spawnManager.SpawnNextShape();
                 
                 enabled = false;
                 
@@ -140,8 +146,10 @@ public class MoveBlock : MonoBehaviour
             
             obj.transform.position += new Vector3(0, 1, 0);
 
-            FindObjectOfType<SpawnManager>().SpawnNextShape();
-                
+            FindObjectOfType<SpawnManager>().SpawnShape(_spawnManager.transform.position, _spawnManager.nextBlock);
+            Destroy(_spawnManager.nextBlock);
+            _spawnManager.nextBlock = _spawnManager.SpawnNextShape();
+
             enabled = false;
                 
             GridSystem.ClearLine();
