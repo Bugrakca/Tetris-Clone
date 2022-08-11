@@ -10,9 +10,23 @@ using TMPro;
 public class MainMenuController : MonoBehaviour
 {
     // public TMP_InputField inputName;
+    
+    public static MainMenuController Instance;
 
     private void Awake()
     {
+        if (Instance == null) {
+            //First run, set the instance
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+ 
+        } else if (Instance != this) {
+            //Instance is not the same as the one we have, destroy old one, and reset to newest one
+            Destroy(Instance.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        
         GameManager.Instance.LoadUserData();
     }
 
@@ -35,8 +49,8 @@ public class MainMenuController : MonoBehaviour
 #endif
     }
     
-    // public void BestScores()
-    // {
-    //     SceneManager.LoadScene("HighScores");
-    // }
+    public void BestScores()
+    {
+        SceneManager.LoadScene("ScoreTable");
+    }
 }

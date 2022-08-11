@@ -65,7 +65,7 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    public static void GameOver(Transform obj)
+    public static void GameOver(GameObject obj)
     {
         if (MoveBlock.CheckPiecePos(obj.transform)) return;
         Debug.Log("Game Over!");

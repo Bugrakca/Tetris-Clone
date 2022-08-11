@@ -2,14 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MoveBlock : MonoBehaviour
 {
+    
+    public AudioSource audioSource;
+    public AudioClip placeSound;
     private SpawnManager _spawnManager;
+    
     private void Start()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
-        GameBoard.GameOver(transform);
+
     }
 
     private void Update()
@@ -19,6 +24,8 @@ public class MoveBlock : MonoBehaviour
             Move(transform.gameObject);
             Rotate.RotatePiece(transform.gameObject); 
         }
+        
+        GameBoard.GameOver(transform.gameObject);
     }
     
 
@@ -101,6 +108,7 @@ public class MoveBlock : MonoBehaviour
                 _spawnManager.nextBlock = _spawnManager.SpawnNextShape();
 
                 enabled = false;
+                
 
                 GridSystem.ClearLine();
             }
@@ -129,6 +137,7 @@ public class MoveBlock : MonoBehaviour
                 
                 enabled = false;
                 
+                
                 GridSystem.ClearLine();
             }
             
@@ -154,6 +163,7 @@ public class MoveBlock : MonoBehaviour
             _spawnManager.nextBlock = _spawnManager.SpawnNextShape();
 
             enabled = false;
+            
                 
             GridSystem.ClearLine();
             
